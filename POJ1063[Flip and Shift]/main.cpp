@@ -10,7 +10,7 @@ int main()
     for (int c = 0; c < cas; c++) {
         int num;
         int one_odd = 0, one_even = 0;
-        bool disk[30]];
+        bool disk[30];
 
         cin >> num;
 
