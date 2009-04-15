@@ -17,37 +17,27 @@ int gcd_rep(int a, int b) {
     return b;
 }
 
-int m[1000000];
-int ra[1000000];
-int rb[1000000];
+
 
 int decipher() {
     //Defination.
     int n;
+    int a, b, m, ra, rb;
+    int ga = 0, gb = 0;
 
-    int a, b;
-    //Input.
-    cin >> n;
-    for (int i = 0; i < n; i++) {
-        scanf("%d %d %d", &m[i], &ra[i], &rb[i]);
-    }
-    //Calculate.
     time_t sta_time = clock();
-
-    int ga, gb;
-    ga = m[0] - ra[0];
-    gb = m[0] - rb[0];
-    for (int i = 1; i < n; i++) {
-        ga = gcd_rep(m[i] - ra[i], ga);
-        gb = gcd_rep(m[i] - rb[i], gb);
-        //printf("\t%d %d\n", ga, gb);
+    //Input with calculate.
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++) {
+        scanf("%d %d %d", &m, &ra, &rb);
+        ga = gcd_rep(m - ra, ga);
+        gb = gcd_rep(m - rb, gb);
     }
+    //Output.
+    printf("%d\n", ga * gb / gcd_rep(ga, gb));
 
     time_t end_time = clock();
-    //Output.
-    cout << ga << ' ' << gb << endl;
-
-    cout << end_time - sta_time << endl;
+    printf(":%.3lf\n", (float)(end_time - sta_time) / 1000);
 }
 
 int main()
