@@ -32,7 +32,7 @@ int decipher() {
         scanf("%d %d %d", &m[i], &ra[i], &rb[i]);
     }
     //Calculate.
-    int sta_time = clock();
+    time_t sta_time = clock();
 
     int ga, gb;
     ga = m[0] - ra[0];
@@ -40,10 +40,10 @@ int decipher() {
     for (int i = 1; i < n; i++) {
         ga = gcd_rep(m[i] - ra[i], ga);
         gb = gcd_rep(m[i] - rb[i], gb);
-        printf("\t%d %d\n", ga, gb);
+        //printf("\t%d %d\n", ga, gb);
     }
 
-    int end_time = clock();
+    time_t end_time = clock();
     //Output.
     cout << ga << ' ' << gb << endl;
 
