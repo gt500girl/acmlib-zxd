@@ -2,13 +2,7 @@
 
 using namespace std;
 
-int gcd_rec(int a, int b) {
-    if (b == 0) return a;
-    int r = a % b;
-    return r == 0 ? b : gcd_rec(b, r);
-}
-
-int gcd_rep(int a, int b) {
+int gcd(int a, int b) {
     if (b == 0) return a;
     int r;
     while (r = a % b, r != 0) {
@@ -19,30 +13,37 @@ int gcd_rep(int a, int b) {
 
 
 
-int decipher() {
+void encrypt() {
+    freopen("in.txt", "r", stdin);
     //Defination.
     int n;
     int a, b, m, ra, rb;
-    int ga = 0, gb = 0;
+    int ga, gb;
 
-    time_t sta_time = clock();
-    //Input with calculate.
-    scanf("%d", &n);
-    for (int i = 0; i < n; i++) {
-        scanf("%d %d %d", &m, &ra, &rb);
-        ga = gcd_rep(m - ra, ga);
-        gb = gcd_rep(m - rb, gb);
+    while (scanf("%d", &n) != EOF) {
+        time_t sta_time = clock();
+
+        ga = 0;
+        gb = 0;
+        //Input with calculate.
+        for (int i = 0; i < n; i++) {
+            scanf("%d %d %d", &m, &ra, &rb);
+            ga = gcd(m - ra, ga);
+            gb = gcd(m - rb, gb);
+        }
+        //Output.
+        if (ga == 0 || gb == 0) printf("I don't know!\n");
+        else printf("%lld\n", (long long)ga * gb / gcd(ga, gb));
+
+        time_t end_time = clock();
+        printf(":%.3lf\n", (float)(end_time - sta_time) / 1000);
     }
-    //Output.
-    printf("%d\n", ga * gb / gcd_rep(ga, gb));
-
-    time_t end_time = clock();
-    printf(":%.3lf\n", (float)(end_time - sta_time) / 1000);
 }
 
-int main()
-{
-    freopen("in.txt", "r", stdin);
-    decipher();
+int main() {
+    encrypt();
+//    int a, b;
+//    cin >> a >> b;
+//    cout << gcd(a, b) << endl;
     return 0;
 }
