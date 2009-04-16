@@ -17,7 +17,7 @@ void encrypt() {
     freopen("in.txt", "r", stdin);
     //Defination.
     int n;
-    int a, b, m, ra, rb;
+    int m, ra, rb;
     int ga, gb;
 
     while (scanf("%d", &n) != EOF) {
@@ -33,10 +33,10 @@ void encrypt() {
         }
         //Output.
         if (ga == 0 || gb == 0) printf("I don't know!\n");
-        else printf("%lld\n", (long long)ga * gb / gcd(ga, gb));
+        else cout << (long long)ga * gb / gcd(ga, gb) <<endl;
 
         time_t end_time = clock();
-        printf(":%.3lf\n", (float)(end_time - sta_time) / 1000);
+        //printf(":%.3lf\n", (float)(end_time - sta_time) / 1000);
     }
 }
 
