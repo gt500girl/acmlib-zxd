@@ -14,7 +14,7 @@ int gcd(int a, int b) {
 
 
 void encrypt() {
-    freopen("in.txt", "r", stdin);
+    //freopen("in.txt", "r", stdin);
     //Defination.
     int n;
     int m, ra, rb;
