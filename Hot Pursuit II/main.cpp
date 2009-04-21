@@ -41,16 +41,18 @@ void sed_dij(vector<pair<int, int> > graph[1000], int dis[1000], int sed[1000], 
     }
 }
 
-void cal_sed(vector<pair<int, int> > graph[1000], int dis[1000], int seddij[1000], int sedpath[1000], int path[1000], int order[1000], int size) {
+void cal_sed(int graph[1000][1000], int dis[1000], int seddij[1000], int sedpath[1000], int path[1000], int order[1000], int size) {
     sedpath[0] = seddij[0];
     for (int i = 1; i < size; i++) {
-        if (seddij[order[i]] < sedpath[path[order[i]]]) {
+        if (seddij[order[i]] < sedpath[path[order[i]]] + graph[path[order[i]]][order[i]]) {
             sedpath[order[i]] = seddij[order[i]];
         } else {
-            sedpath[order[i]] = sedpath[path[order[i]]];
+            sedpath[order[i]] = sedpath[path[order[i]]] + graph[path[order[i]]][order[i]];
         }
     }
 }
+
+int graph_mat[1000][1000];
 
 int main() {
     freopen("data1.in", "r", stdin);
@@ -58,6 +60,10 @@ int main() {
     while (scanf("%d", &m) != EOF) {
         vector<pair<int, int> > graph_pos[1000];
         vector<pair<int, int> > graph_neg[1000];
+
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < m; j++)
+                graph_mat[i][j] = 99999999;
         for (int i = 0; i < m; i++) {
             int n;
             scanf("%d", &n);
@@ -65,7 +71,8 @@ int main() {
                 int a, w;
                 scanf("%d %d", &a, &w);
                 graph_pos[i].push_back(make_pair(a-1, w));
-                graph_neg[a-1].push_back(make_pair(i, w));
+                graph_pos[a-1].push_back(make_pair(i, w));
+                graph_mat[i][a-1] = w;
             }
         }
         int dis[1000];
@@ -78,7 +85,7 @@ int main() {
         for (int i = 0; i < m; i++) printf("\t%d\n", seddij[i]);
         printf("//////////////////\n");
         int sedpath[1000];
-        cal_sed(graph_neg, dis, seddij, sedpath, path, order, m);
+        cal_sed(graph_mat, dis, seddij, sedpath, path, order, m);
         printf("%d\n", sedpath[m-1]);
     }
     return 0;
