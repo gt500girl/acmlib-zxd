@@ -107,11 +107,11 @@ int main() {
         }
     }
 
-    Jigsaw fi_state;
+    //临时接受输入的字符数组，用于scanf输入，加快速度
     char tmp_str[10];
     //接受输入并从Hash表中查找值返回输出
     while (scanf("%s", &tmp_str) != EOF) {
-        fi_state = tmp_str;
+        Jigsaw fi_state = tmp_str;
         int code = hashcode(fi_state);
         //printf("%d\n", code);
         int step = state_hash[code];
