@@ -19,7 +19,7 @@ bool ch_state(Jigsaw& jigsaw, int ch) {
     bool flag = false;
     switch (ch) {
         case 0:
-            if (i0 - 3 > 0) {
+            if (i0 - 3 >= 0) {
                 jigsaw[i0] = jigsaw[i0-3];
                 jigsaw[i0-3] = '0';
                 flag = true;
@@ -69,8 +69,8 @@ int hashcode(Jigsaw jigsaw) {
 int state_hash[362880];
 
 int main() {
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
 
     memset(state_hash, -1, sizeof(state_hash));
 
