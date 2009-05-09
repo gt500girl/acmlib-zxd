@@ -1,16 +1,18 @@
 #include <iostream>
-#include <queue>
-#include <string>
 
 using namespace std;
 
 //使用string类型存储方格状态
-typedef string Jigsaw;
+typedef char Jigsaw[10];
 
 //初始状态
 const Jigsaw st_state = "012345678";
 //0-8的阶乘，打表存储，加快计算
-const int fac[9] = {0, 1, 2, 6, 24, 120, 720, 5040, 40320};
+const int fac[9][9] = {0,0,0,0,0,0,0,0,0,
+    0, 1, 2, 6, 24, 120, 720, 5040, 40320,
+    0, 2, 4, 12, 48, 240, 1440, 10080, 80640,
+    0, 3, 6, 18, };
+
 
 //将状态依参数沿四个方向扩展
 bool ch_state(Jigsaw& jigsaw, int ch) {
@@ -70,29 +72,41 @@ int hashcode(Jigsaw jigsaw) {
     return code;
 }
 
+
+typedef struct Jigsaw_Que {
+    Jigsaw jigsaw;
+    int step;
+};
+Jigsaw_Que state_que[362880];
+
 int state_hash[362880];
 
 int main() {
+    freopen("input.txt", "r", stdin);
+    freopen("out.txt", "w", stdout);
+
     //初始化哈希表
     memset(state_hash, -1, sizeof(state_hash));
     state_hash[0] = 0;
 
     //初始化队列
-    queue<pair<Jigsaw, int> > state_que;
-    state_que.push(make_pair(st_state, 0));
+    strcpy(state_que[0].jigsaw, st_state);
+    int front = 0;
+    int tail = 1;
 
     //接受输入前先打好Hash表
-    while (state_que.size() != 0) {
+    while (tail - front != 0) {
         //取出队头的状态
-        Jigsaw cur_state = state_que.front().first;
-        int step = state_que.front().second;
-        state_que.pop();
+        Jigsaw & cur_state = state_que[front].jigsaw;
+        int step = state_que[front].step;
+        front++;
 
         //步数加1
         step++;
         //沿四个方向前进
         for (int k = 0; k < 4; k++) {
-            Jigsaw new_state = cur_state;
+            Jigsaw new_state;
+            strcpy(new_state, cur_state);
             //判断前进是否成功
             if (ch_state(new_state, k)) {
                 //计算新状态的Hash码
@@ -101,17 +115,18 @@ int main() {
                 if (state_hash[code] < 0) {
                     //若新状态首次出现，则将其记入Hash表，并加入队列
                     state_hash[code] = step;
-                    state_que.push(make_pair(new_state, step));
+                    strcpy(state_que[tail].jigsaw, new_state);
+                    state_que[tail].step = step;
+                    tail++;
                 }
             }
         }
     }
 
     //临时接受输入的字符数组，用于scanf输入，加快速度
-    char tmp_str[10];
+    Jigsaw fi_state;
     //接受输入并从Hash表中查找值返回输出
-    while (scanf("%s", &tmp_str) != EOF) {
-        Jigsaw fi_state = tmp_str;
+    while (scanf("%s", &fi_state) != EOF) {
         int code = hashcode(fi_state);
         //printf("%d\n", code);
         int step = state_hash[code];
